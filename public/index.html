@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>AI k6 Test Generator</title>
+</head>
+<body>
+    <h1>Describe Your Performance Test</h1>
+    <textarea id="prompt-input" rows="4" cols="50" placeholder="e.g., 'Run a 1-minute test on test.k6.io with 20 virtual users.'"></textarea>
+    <br>
+    <button onclick="runTest()">Generate & Run Test</button>
+    <h2>Generated Script:</h2>
+    <pre><code id="generated-script"></code></pre>
+    <h2>Test Results:</h2>
+    <pre id="test-results"></pre>
+    <script src="script.js"></script>
+</body>
+</html>
