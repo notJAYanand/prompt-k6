@@ -1,4 +1,4 @@
-# AI-Powered k6 Performance Testing Tool
+# The k6 Whisperer : AI-Powered k6 Performance Testing Tool
 
 This project is a web-based interface for the powerful open-source load testing tool, [k6](https://k6.io/). It allows users to generate and run complex performance tests by simply describing them in plain English. The application leverages a Generative AI (Google's Gemini) to translate natural language prompts into executable k6 JavaScript scripts and to provide human-readable summaries of the test results.
 
