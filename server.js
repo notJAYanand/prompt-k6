@@ -67,14 +67,24 @@ app.post('/generate-and-run-test', async (req, res) => {
         const testSummaryJson = fs.readFileSync(resultsPath, 'utf8');
 
         // ANALYZE THE RESULTS WITH AI 
-        const analysisPrompt = `You are a performance testing expert. Analyze the following k6 JSON output and provide a brief, human-readable summary for a non-technical stakeholder. Highlight the requests per second, the p(95) response time, and the failure rate. Start your analysis with a conclusion (e.g., "Conclusion: The test passed successfully."). JSON results: ${testSummaryJson}`;
-        
+        const analysisPrompt = `
+                                You are a performance testing expert. Analyze the following k6 JSON output and provide a brief, human-readable summary.
+
+                                Follow these rules strictly:
+                                1.  Start with a one-sentence conclusion: "Conclusion: The test passed successfully." or "Conclusion: The test failed."
+                                2.  To determine if the test passed or failed, look at the "http_req_failed" metric. Inside it, look for the "value" property. If "value" is 0, the test passed with a 0% error rate. If "value" is not 0, the test failed. Do not state there are failures if the value is 0.
+                                3.  Report the requests per second from the "http_reqs" metric's "rate" property.
+                                4.  Report the 95th percentile response time from the "http_req_duration" metric's "p(95)" property.
+
+                                Here is the JSON data to analyze: ${testSummaryJson}
+                                `;
+
         result = await model.generateContent(analysisPrompt);
         const analysisText = result.response.text();
-        
+
         // SEND THE FINAL, COMPLETE RESPONSE
-        res.send({ 
-            script: k6Script, 
+        res.send({
+            script: k6Script,
             summary: stdout, // The raw text output from the k6 command
             analysis: analysisText, // The AI-generated summary
             results: JSON.parse(testSummaryJson) // The full JSON data for charting
