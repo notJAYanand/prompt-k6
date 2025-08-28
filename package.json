@@ -1,0 +1,15 @@
+{
+  "name": "prompt-k6",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "notjayanand",
+  "license": "ISC",
+  "description": "use prompts to load test your endpoints",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
