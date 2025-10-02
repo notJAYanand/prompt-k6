@@ -1,14 +1,22 @@
 # The k6 Whisperer : AI-Powered k6 Performance Testing Tool
 
+[![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
+[![k6](https://img.shields.io/badge/k6-Latest-blue.svg)](https://k6.io/)
+
+> Transform natural language into powerful k6 performance tests with AI. No more manual scripting - just describe what you want to test.
+
 This project is a web-based interface for the powerful open-source load testing tool, [k6](https://k6.io/). It allows users to generate and run complex performance tests by simply describing them in plain English. The application leverages a Generative AI (Google's Gemini) to translate natural language prompts into executable k6 JavaScript scripts and to provide human-readable summaries of the test results.
 
 ## Features
 
 -   **Natural Language Interface**: No need to write k6 scripts manually. Just describe the test you want to run (e.g., "stress test my login page with 100 users for 5 minutes").
 -   **AI-Powered Script Generation**: Uses Large Language Model (LLM) to dynamically create k6 test scripts based on your prompts.
--   **Automated Test Execution**: A Node.js backend executes the generated scripts and captures the results.
 -   **Intelligent Result Analysis**: The AI analyzes the raw k6 JSON output and provides a concise, human-readable summary of the key performance metrics.
 -   **Full k6 Capabilities**: Supports all major k6 features, including stages, thresholds, POST requests, and custom checks, through natural language commands.
+- **Editable Scripts**: Review, modify, and fine-tune generated scripts before execution.
+- **Comprehensive Reporting**: View raw k6 output alongside AI-powered insights.
+-   **Automated Test Execution**: A Node.js backend executes the generated scripts and captures the results.
+-   **Flexible Workflow**: Choose between quick generate-and-run or step-by-step script refinement.
 -   **Local and Remote Testing**: Test applications running on `localhost` or any publicly accessible URL.
 
 ## Tech Stack
@@ -17,6 +25,7 @@ This project is a web-based interface for the powerful open-source load testing 
 -   **Frontend**: HTML, CSS, Vanilla JavaScript
 -   **Performance Testing Engine**: Grafana k6
 -   **Generative AI**: Google Gemini API (will explore more models)
+-   **Architecture**: RESTful API with asynchronous pipeline processing
 
 ## Getting Started
 
@@ -24,7 +33,7 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 ### Prerequisites
 
-1.  **Node.js**: Make sure you have Node.js installed. You can download it from [nodejs.org](https://nodejs.org/).
+1.  **Node.js**: Make sure you have Node.js installed. You can download it from [nodejs.org](https://nodejs.org/) (v18.0.0 or higher).
 2.  **k6**: You must have the k6 engine installed on your system. Follow the [official k6 installation guide](https://k6.io/docs/getting-started/installation/).
 3.  **Google Gemini API Key**:
     -   Go to [Google AI Studio](https://ai.google.dev/studio).
@@ -65,11 +74,14 @@ Follow these instructions to get a copy of the project up and running on your lo
 ## How to Use
 
 1.  **Describe Your Test**: In the text area, type a description of the performance test you want to run.
-2.  **Generate and Run**: Click the "Generate & Run Test" button.
+2.  **Review and execute**
+    - Review the generated k6 script
+    - Modify if needed
+    - Run the test and view results
 3.  **View Results**: The application will display:
-    -   The **Generated Script** created by the AI.
-    -   The **AI Analysis**, a human-readable summary of the test results.
     -   The **Raw Output** from the k6 command line for detailed analysis.
+    -   The **AI Analysis Summary**, a human-readable summary of the test results.
+    -   The **Comprehensive AI Analysis**, a human-readable Comprehensive analysis of the test results.
 
 ### Sample Prompts
 
@@ -80,6 +92,40 @@ Here are some examples you can try:
 -   **POST Request with Checks**: `Test the POST endpoint at https://test.k6.io/flip_coin.php. Send a payload with bet=heads for 20 seconds using 5 virtual users. Add a check to verify the HTTP status is 200.`
 -   **Test with Thresholds**: `Run a load test on https://test.k6.io/pi.php?decimals=8 for 30 seconds with 15 users. Add a threshold to make the entire test fail if the 95th percentile response time is over 900 milliseconds.`
 -   **Localhost Test**: `Test my local server at http://localhost:8080/api/users with 10 users for 1 minute.`
+
+## Troubleshooting
+
+### Common Issues
+
+**AI Service Unavailable (503 Error)**
+- The AI service is temporarily down (Also Gemini Free Tier has a rate limiter)
+- Wait a few minutes and retry
+- Check your API key validity
+
+**Invalid k6 Script Generated**
+- Sometimes AI adds markdown artifacts e.g. \`\`\`javascript \`\`\`
+- Manually edit the script if needed
+
+**k6 Command Not Found**
+- Ensure k6 is properly installed and in your PATH
+- Restart your terminal after installation
+
+**Connection Refused (Local Testing)**
+- Ensure your local server is running
+- Check the correct port number
+- Verify firewall settings
+
+
+## Contributing
+
+Contributions are welcome! Here's how to get started:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
 
 ## Acknowledgments
 

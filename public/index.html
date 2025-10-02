@@ -1,17 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>AI k6 Test Generator</title>
 </head>
+
 <body>
     <h1>Describe Your Performance Test</h1>
-    <textarea id="prompt-input" rows="4" cols="50" placeholder="e.g., 'Run a 1-minute test on test.k6.io with 20 virtual users.'"></textarea>
+    <textarea id="prompt-input" rows="4" cols="50"
+        placeholder="e.g., 'Run a 1-minute test on test.k6.io with 20 virtual users.'"></textarea>
     <br>
-    <button onclick="runTest()">Generate & Run Test</button>
-    <h2>Generated Script:</h2>
-    <pre><code id="generated-script"></code></pre>
-    <h2>Test Results:</h2>
-    <pre id="test-results"></pre>
+    <button onclick="generateScript()">Generate Script</button>
+    <div id="results">
+        <h3>Generated Script (Editable):</h3>
+        <textarea id="generatedScript" rows="20" cols="100" style="font-family: monospace;"></textarea><br><br>
+        <button onclick="runScript()">Run This Script</button>
+        <button onclick="regenerateScript()">Regenerate Script</button>
+    </div>
+
+    <div id="results">
+        <h4>Test Results:</h4>
+        <pre id="summary"></pre>
+
+        <div id="analysisSection">
+            <h4>AI Analysis:</h4>
+            <button id="getAnalysisBtn" onclick="getAnalysis()">Get AI Analysis</button>
+            <div id="analysis" style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 3px;"></div>
+        </div>
+
+        <div id="comprehensiveAnalysisSection">
+            <h4>Comprehensive AI Analysis:</h4>
+            <button id="getComprehensiveAnalysisBtn" onclick="getComprehensiveAnalysis()">Get Comprehensive AI
+                Analysis</button>
+            <div id="comprehensiveAnalysis"
+                style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 3px;"></div>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
+
 </html>

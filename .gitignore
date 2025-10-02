@@ -1,2 +1,6 @@
 # Dependency directories
 node_modules/
+
+# Utility Files
+/temp_test.js
+/results.json
