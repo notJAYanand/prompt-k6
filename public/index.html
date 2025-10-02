@@ -16,27 +16,26 @@
         <textarea id="generatedScript" rows="20" cols="100" style="font-family: monospace;"></textarea><br><br>
         <button onclick="runScript()">Run This Script</button>
         <button onclick="regenerateScript()">Regenerate Script</button>
-        <!-- <textarea id="generatedScript" rows="15" cols="80" style="font-family: monospace; width: 100%; margin-bottom: 20px;"></textarea>
-        <button id="runEditedScript" onclick="runEditedScript()">Run Edited Script</button>
-         <button id="generateBtn">Generate & Run Test</button> -->
     </div>
-    <!-- <h2>Test Results:</h2>
-    results<br>
-    <pre id="results"></pre><br>
-    analysis<br>
-    <pre id="analysis"></pre><br>
-    summary<br>
-    <pre id="summary"></pre><br> -->
+
     <div id="results">
-    <h4>Test Results:</h4>
-    <pre id="summary"></pre>
-    
-    <div id="analysisSection">
-        <h4>AI Analysis:</h4>
-        <button id="getAnalysisBtn" onclick="getAnalysis()">Get AI Analysis</button>
-        <div id="analysis" style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 3px;"></div>
+        <h4>Test Results:</h4>
+        <pre id="summary"></pre>
+
+        <div id="analysisSection">
+            <h4>AI Analysis:</h4>
+            <button id="getAnalysisBtn" onclick="getAnalysis()">Get AI Analysis</button>
+            <div id="analysis" style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 3px;"></div>
+        </div>
+
+        <div id="comprehensiveAnalysisSection">
+            <h4>Comprehensive AI Analysis:</h4>
+            <button id="getComprehensiveAnalysisBtn" onclick="getComprehensiveAnalysis()">Get Comprehensive AI
+                Analysis</button>
+            <div id="comprehensiveAnalysis"
+                style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 3px;"></div>
+        </div>
     </div>
-</div>
     <script src="script.js"></script>
 </body>
 

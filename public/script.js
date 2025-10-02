@@ -9,111 +9,100 @@ async function runTest() {
 
     const data = await response.json();
 }
-    // document.getElementById('generated-script').textContent = data.script || data.error;
 
+async function generateScript() {
+    const prompt = document.getElementById('prompt-input').value;
+    if (!prompt.trim()) {
+        alert('Please enter a test description');
+        return;
+    }
 
-    async function generateScript() {
-            const prompt = document.getElementById('prompt-input').value;
-            if (!prompt.trim()) {
-                alert('Please enter a test description');
-                return;
-            }
+    try {
+        const response = await fetch('/generate-script', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt })
+        });
 
-            try {
-                const response = await fetch('/generate-script', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt })
-                });
+        const data = await response.json();
 
-                const data = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(data.error || 'Failed to generate script');
-                }
-
-                // Show the generated script
-                document.getElementById('generatedScript').value = data.script;
-                document.getElementById('scriptSection').style.display = 'block';
-                document.getElementById('results').style.display = 'none';
-
-            } catch (error) {
-                console.error('Error:', error);
-                alert(error.message);
-            }
+        if (!response.ok) {
+            throw new Error(data.error || 'Failed to generate script');
         }
 
-        let lastTestResults = null; // Store results for analysis
-        async function runScript() {
-            const script = document.getElementById('generatedScript').value;
-            if (!script.trim()) {
-                alert('No script to run');
-                return;
-            }
+        // Show the generated script
+        document.getElementById('generatedScript').value = data.script;
 
-            try {
-                const response = await fetch('/run-script', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ script })
-                });
+    } catch (error) {
+        console.error('Error:', error);
+        alert(error.message);
+    }
+}
 
-                const data = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(data.error || 'Failed to run script');
-                }
+let lastTestResults = null; // Store results for analysis
+async function runScript() {
+    const script = document.getElementById('generatedScript').value;
+    if (!script.trim()) {
+        alert('No script to run');
+        return;
+    }
 
-                // Show the results
-                document.getElementById('analysis').textContent = data.analysis;
-                document.getElementById('summary').textContent = data.summary;
-                document.getElementById('results').style.display = 'block';
+    try {
+        const response = await fetch('/run-script', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ script })
+        });
 
-            } catch (error) {
-                console.error('Error:', error);
-                alert(error.message);
-            }
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || 'Failed to run script');
         }
 
-        async function generateAndRun() {
-            const prompt = document.getElementById('prompt').value;
-            if (!prompt.trim()) {
-                alert('Please enter a test description');
-                return;
-            }
+        // Show the results
+        document.getElementById('analysis').textContent = data.analysis;
+        document.getElementById('summary').textContent = data.summary;
 
-            try {
-                const response = await fetch('/generate-and-run-test', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt })
-                });
+    } catch (error) {
+        console.error('Error:', error);
+        alert(error.message);
+    }
+}
 
-                const data = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(data.error || 'Failed to generate and run test');
-                }
+async function generateAndRun() {
+    const prompt = document.getElementById('prompt').value;
+    if (!prompt.trim()) {
+        alert('Please enter a test description');
+        return;
+    }
 
-                // Show both script and results
-                document.getElementById('generatedScript').value = data.script;
-                document.getElementById('scriptSection').style.display = 'block';
-                
-                document.getElementById('analysis').textContent = data.analysis;
-                document.getElementById('summary').textContent = data.summary;
-                document.getElementById('results').style.display = 'block';
+    try {
+        const response = await fetch('/generate-and-run-test', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt })
+        });
 
-            } catch (error) {
-                console.error('Error:', error);
-                alert(error.message);
-            }
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || 'Failed to generate and run test');
         }
+
+        // Show both script and results
+        document.getElementById('generatedScript').value = data.script;
+
+        document.getElementById('analysis').textContent = data.analysis;
+        document.getElementById('summary').textContent = data.summary;
+
+    } catch (error) {
+        console.error('Error:', error);
+        alert(error.message);
+    }
+}
 
 async function getAnalysis() {
-    // if (!lastTestResults) {
-    //     alert('No test results available for analysis. Run a test first.');
-    //     return;
-    // }
 
     // Update button state
     const analysisBtn = document.getElementById('getAnalysisBtn');
@@ -125,11 +114,11 @@ async function getAnalysis() {
         const response = await fetch('/analyze-results', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ results: lastTestResults })
+            body: JSON.stringify({ results: lastTestResults }) //this is cheating, we are getting results in the server from results.json -- im too lazy to fix it, will fix later
         });
 
         const data = await response.json();
-        
+
         if (!response.ok) {
             throw new Error(data.error || 'Failed to get analysis');
         }
@@ -147,30 +136,38 @@ async function getAnalysis() {
     }
 }
 
-        function regenerateScript() {
-            document.getElementById('scriptSection').style.display = 'none';
-            document.getElementById('results').style.display = 'none';
-            generateScript();
+async function getComprehensiveAnalysis() {
+    const comprehensiveAnalysisBtn = document.getElementById('getComprehensiveAnalysisBtn');
+    let originalText = comprehensiveAnalysisBtn.textContent;
+    comprehensiveAnalysisBtn.textContent = 'Analyzing...';
+    comprehensiveAnalysisBtn.disabled = true;
+
+    try {
+        const response = await fetch('/comprehensive-results-analysis', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ results: lastTestResults }) // "oops i did it again" - Brittany Spears
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || 'Failed to get analysis');
         }
 
-    // function runEditedScript() {
-    //     const editedScript = document.getElementById('generatedScript').value;
-        
-    //     fetch('/run-edited-script', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({ script: editedScript })
-    //     })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         // Display results same as before
-    //         displayResults(data);
-    //     });
-    // }
+        // Show the AI analysis
+        document.getElementById('comprehensiveAnalysis').textContent = data.analysis;
 
-    // document.getElementById('generateBtn').addEventListener('click', generateAndRunTest);
-    // Results
-    // document.getElementById('generated-script').textContent = data.script;
-    // document.getElementById('test-results').textContent = `AI Analysis:\n${data.analysis}\n\nRaw Output:\n${data.summary}`;
+    } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('comprehensiveAnalysis').textContent = 'Analysis failed: ' + error.message;
+    } finally {
+        // Reset button
+        comprehensiveAnalysisBtn.textContent = originalText;
+        comprehensiveAnalysisBtn.disabled = false;
+    }
+}
+
+function regenerateScript() {
+    generateScript();
+}
